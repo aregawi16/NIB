@@ -1,0 +1,348 @@
+
+<mat-stepper >
+  <mat-step label="Step 1" state="phone"  >
+    <form [formGroup]="personalInfoFormGroup">
+      <ng-template matStepLabel>Personal Info</ng-template>
+<div>
+      <mat-form-field appearance="outline">
+        <mat-label>First Name</mat-label>
+        <input matInput placeholder="First name" (change)="generateRefNo()" formControlName="firstName" required>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Middle Name</mat-label>
+        <input matInput placeholder="Middle name" (change)="generateRefNo()" formControlName="middleName" required>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Last Name</mat-label>
+        <input matInput placeholder="Last name" formControlName="lastName" (change)="generateRefNo()" required>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Phone Number</mat-label>
+        <input matInput placeholder="Phone Number" formControlName="phoneNumber" (change)="generateRefNo()" ngModel maxlength="10" required>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Passport No</mat-label>
+        <input matInput placeholder="Passport No" formControlName="passportNo" ngModel maxlength="8" required>
+      </mat-form-field>
+
+      <mat-form-field color="accent" appearance="outline">
+        <mat-label>Date Of Birth</mat-label>
+        <input matInput [matDatepicker]="picker1" formControlName="DOB">
+        <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
+        <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1 color="primary"></mat-datepicker>
+
+    </mat-form-field>
+
+        <mat-form-field color="accent" appearance="outline">
+          <mat-label>Passport Issue Date</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="passportIssueDate">
+          <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker color="primary"></mat-datepicker>
+
+      </mat-form-field>
+        <mat-form-field color="accent" appearance="outline">
+          <mat-label>Passport Expiry Date</mat-label>
+          <input matInput [matDatepicker]="picker2" formControlName="passportExpiryDate">
+          <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
+          <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2 color="primary"></mat-datepicker>
+      </mat-form-field>
+
+    </div>
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Nationality</mat-label>
+        <mat-select formControlName="nationality" required>
+          <mat-option *ngFor="let country of countrys" [value]="country.id">
+              <span>{{country.name}}</span>
+          </mat-option>
+      </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Gender</mat-label>
+        <mat-select formControlName="gender" required>
+          <mat-option *ngFor="let gender of genders"
+          [value]="gender">
+    {{genderList[gender]}}
+  </mat-option>
+      </mat-select>
+
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Marital Status</mat-label>
+        <mat-select formControlName="maritalStatus" required>
+          <mat-option *ngFor="let maritalStatus of maritalStatuses"
+          [value]="maritalStatus">
+    {{maritalStatusList[maritalStatus]}}
+  </mat-option>
+      </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>No of Children</mat-label>
+        <input matInput placeholder="No of Children" formControlName="noOfChildren" required>
+      </mat-form-field>
+
+    </div>
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Religion</mat-label>
+        <mat-select formControlName="religion" placeholder="Religion" required>
+          <mat-option *ngFor="let religion of religions"
+          [value]="religion">
+    {{religionList[religion]}}
+  </mat-option>
+      </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Reference No</mat-label>
+        <input matInput placeholder="Reference No" formControlName="referenceNo" ngModel  [value]="refNo"  required>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Height</mat-label>
+        <input matInput placeholder="Height" formControlName="height" required>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Weight</mat-label>
+        <input matInput placeholder="Weight" formControlName="weight" required>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>City</mat-label>
+        <input matInput placeholder="City" formControlName="city" ngModel    required>
+
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Wereda</mat-label>
+        <input matInput placeholder="Wereda" formControlName="wereda" ngModel  required>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Kebelle</mat-label>
+        <input matInput placeholder="Kebelle" formControlName="kebelle" required>
+      </mat-form-field>
+
+    </div>
+      <div>
+        <div>
+          <button  mat-button matStepperNext><mat-icon style="font-size: 30px;width: 30px;height: 30px;">skip_next</mat-icon>
+          </button>
+
+        </div>
+      </div>
+    </form>
+
+  </mat-step>
+  <mat-step label="Step 2" state="school"  >
+
+    <form [formGroup]="workExperienceForm">
+      <ng-template matStepLabel>Work Experience</ng-template>
+      <div formArrayName="rows">
+        <div  id="add-div">
+           <button mat-button (click)="initGroup()"><mat-icon id="add-icon">add</mat-icon></button>
+        </div>
+          <div *ngFor="let row of workExperienceForm['controls'].rows['controls'] let i = index" [formGroupName]="i">
+
+          <mat-form-field color="accent" appearance="outline">
+    <mat-label>Start Date</mat-label>
+    <input matInput [matDatepicker]="startdate" formControlName="startDate" placeholder="Start Date">
+    <mat-datepicker-toggle matIconSuffix [for]="startdate"></mat-datepicker-toggle>
+    <mat-datepicker #startdate color="primary"></mat-datepicker>
+
+</mat-form-field>
+  <mat-form-field color="accent" appearance="outline">
+    <mat-label>End Date</mat-label>
+    <input matInput [matDatepicker]="enddate" formControlName="endDate" placeholder="End Date">
+    <mat-datepicker-toggle matIconSuffix [for]="enddate"></mat-datepicker-toggle>
+    <mat-datepicker #enddate color="primary"></mat-datepicker>
+</mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Country</mat-label>
+        <mat-select formControlName="country" required>
+          <mat-option *ngFor="let country of countries" [value]="country.name">
+              <span>{{country.name}}</span>
+          </mat-option>
+      </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Job Description</mat-label>
+        <input matInput placeholder="Job" formControlName="jobDescription" required>
+      </mat-form-field>
+      <button (click)="onDeleteRow(i)" mat-button><mat-icon id="delete-icon">delete</mat-icon></button>
+
+    </div>
+    </div>
+    </form>
+    <div class="stepper-btn">
+
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button matStepperNext>Next</button>
+    </div>
+  </mat-step>
+  <mat-step label="Step 3" state="contact_phone"  >
+    <form [formGroup]="contactPersonFormGroup">
+      <ng-template matStepLabel>Contact Person</ng-template>
+
+      <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="Start">
+        <div fxFlex="10%">
+          </div>
+        <div fxFlex="30%">
+      <mat-form-field appearance="outline">
+        <mat-label>Full Name</mat-label>
+        <input matInput placeholder="Full Name" formControlName="fullName" required>
+      </mat-form-field>
+</div>
+        <div fxFlex="30%">
+      <mat-form-field appearance="outline">
+        <mat-label>Phone Number</mat-label>
+        <input matInput placeholder="Phone Number" formControlName="phoneNumber" required>
+      </mat-form-field>
+</div>
+        <div fxFlex="30%">
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="Email" formControlName="email" required>
+      </mat-form-field>
+
+    </div>
+    </div>
+
+  <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="Start">
+    <div fxFlex="10%">
+      </div>
+    <div fxFlex="30%">
+  <mat-form-field appearance="outline">
+    <mat-label>City</mat-label>
+    <input matInput placeholder="City" formControlName="city" required>
+  </mat-form-field>
+
+</div>
+
+  <div fxFlex="30%">
+<mat-form-field appearance="outline">
+  <mat-label>Wereda</mat-label>
+  <input matInput placeholder="Wereda" formControlName="wereda" required>
+</mat-form-field>
+
+</div>
+
+  <div fxFlex="30%">
+<mat-form-field appearance="outline">
+  <mat-label>Kebelle</mat-label>
+  <input matInput placeholder="Kebelle" formControlName="kebelle" required>
+</mat-form-field>
+
+</div>
+</div>
+    </form>
+    <div class="stepper-btn">
+      <button mat-button matStepperPrevious alig>Back</button>
+      <button mat-button matStepperNext>Next</button>
+    </div>
+  </mat-step>
+  <mat-step label="Step 4" state="group_work"  >
+
+    <form [formGroup]="experiencedJobFormGroup">
+      <ng-template matStepLabel>Experienced Job</ng-template>
+      <div formArrayName="jobs">
+
+      <div *ngFor="let row of experiencedJobFormGroup['controls'].jobs['controls'] let i = index" [formGroupName]="i" class="ex-job-container">
+        <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="Start">
+          <div fxFlex="20%">
+
+
+          </div>
+          <div fxFlex="30%">
+
+              <input matInput placeholder="Job" value="row.commonJobId.value" formControlName="commonJobId"ngModel *ngIf="hidden">
+
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="Job"  value="row.commonJobName.value" formControlName="commonJobName">
+            </mat-form-field>
+          </div>
+          <div fxFlex="20%">
+             <mat-checkbox
+            class="remember-me"
+            formControlName="haveExperience"
+            (change)="checkExp(row)"
+            color="primary">
+            Have Experience?
+            </mat-checkbox>
+            </div>
+          </div>
+
+
+
+
+      </div>
+      </div>
+      </form>
+      <div class="stepper-btn">
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button>Next</button>
+    </div>
+  </mat-step>
+  <mat-step label="Step 5" state="cloud_upload"  >
+    <form [formGroup]="documentFormGroup">
+      <ng-template matStepLabel>Documents</ng-template>
+      <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+        <div class="image-upload" fxFlex="40%">
+          <mat-label>Applicant Passport</mat-label>
+          <app-image-uploader (change)="onChangeApplicantPassport($event)"></app-image-uploader>
+
+        </div>
+        <div class="image-upload" fxFlex="40%">
+          <mat-label>Applicant ID</mat-label>
+          <app-image-uploader (change)="onChangeApplicantId($event)"></app-image-uploader>
+
+        </div>
+        </div>
+        <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+
+        <div class="image-upload" fxFlex="40%">
+          <mat-label>Contact Person Id Or Passport</mat-label>
+          <app-image-uploader (change)="onChangeContactId($event)"></app-image-uploader>
+
+
+        </div>
+        <div class="image-upload" fxFlex="40%">
+
+          <mat-label>Applicant Short Photo</mat-label>
+          <app-image-uploader (change)="onChangeApplicantShortPhoto($event)"></app-image-uploader>
+
+
+        </div>
+      </div>
+      <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+
+      <div class="image-upload" fxFlex="40%">
+        <mat-label>Applicant Full Photo</mat-label>
+        <app-image-uploader (change)="onChangeApplicantFullPhoto($event)"></app-image-uploader>
+</div>
+<div class="image-upload" fxFlex="40%">
+
+        <mat-label>Applicant Video</mat-label>
+        <app-image-uploader (change)="onChangeApplicantVideo($event)"></app-image-uploader>
+
+</div>
+      </div>
+      </form>
+      <div class="stepper-btn">
+
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="onSubmit()" matStepperNext>Submit</button>
+    </div>
+  </mat-step>
+
+  <!-- Icon overrides. -->
+  <ng-template matStepperIcon="phone">
+    <mat-icon>call_end</mat-icon>
+  </ng-template>
+  <ng-template matStepperIcon="chat">
+    <mat-icon>forum</mat-icon>
+  </ng-template>
+</mat-stepper>

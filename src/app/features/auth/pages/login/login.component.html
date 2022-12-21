@@ -1,0 +1,55 @@
+<div class="container">
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title></mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+<div class="login-div">
+    <img src="./assets/images/logo.png"  class="image-container">
+
+    <h1 style="margin: top;">Sign in</h1>
+
+  <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+
+
+    <mat-error *ngIf="!loginValid" class="login-error-desc">
+    <mat-icon class="display:inline">error</mat-icon><span style="margin-top:auto;margin-bottom:auto;">Login Failed</span>
+
+    </mat-error>
+     <mat-form-field appearance="outline">
+      <mat-label>User Name</mat-label>
+      <input type="text" matInput [(ngModel)]="login.userName" placeholder="Email"  placeholder="Use Name" formControlName="userName">
+      <mat-icon matPrefix>person</mat-icon>
+
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input  [type]="hide ? 'password' : 'text'" matInput  [(ngModel)]="login.password"  placeholder="Password" formControlName="password" />
+      <mat-icon matPrefix>lock</mat-icon>
+      <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+
+    </mat-form-field>
+    <div>
+      <mat-checkbox
+      class="remember-me"
+      [(ngModel)]="checked"
+      [(ngModel)]="login.rememberMe"
+      formControlName="rememberMe"
+      color="primary">
+      Remember me
+      </mat-checkbox>
+    </div>
+
+    <button type="submit"  align="center" mat-raised-button id="login_btn" [disabled]="!loginForm.valid"> <mat-icon>lock</mat-icon>Sign in</button>
+  </form>
+</div>
+
+  </mat-card-content>
+  <mat-card-actions></mat-card-actions>
+  <mat-card-footer></mat-card-footer>
+</mat-card>
+
+</div>

@@ -1,0 +1,110 @@
+<mat-card>
+<mat-card-title aria-label="center">Applicant Detail</mat-card-title>
+<mat-card-content class="mat-elevation-z8">
+  <div class="container" class="mat-elevation-z8" width="70%">
+  <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="Start">
+    <div fxFlex="10%"></div>
+    <div fxFlex="35%">
+      <diV class="div-row"><label>Full Name:</label><span>{{applicantProfile.fullName}}</span></diV>
+      <diV class="div-row"> <label>Phone Number:</label><span>{{applicantProfile.phoneNumber}}</span></diV>
+        <diV class="div-row"> <label>Passport Number:</label><span>{{applicantProfile.passportNo}}</span></diV>
+          <diV class="div-row"> <label>Nationality:</label><span>{{applicantProfile.nationality}}</span></diV>
+            <diV class="div-row"><label>Marital Status:</label><span>{{applicantProfile.maritalStatus}}</span></diV>
+              <diV class="div-row"><label>Gender:</label><span>{{applicantProfile.gender}}</span></diV>
+</div>
+
+      <div fxFlex="35%">
+
+        <diV class="div-row"><label>Age:</label><span>{{applicantProfile.age}}</span></diV>
+        <diV class="div-row"><label>Passport Issue Date:</label><span>{{applicantProfile.passportIssueDate}}</span></diV>
+        <diV class="div-row"> <label>Passport Expiry Date:</label><span>{{applicantProfile.passportExpiryDate}}</span></diV>
+        <diV class="div-row"> <label>Reference No:</label><span>{{applicantProfile.referenceNo}}</span></diV>
+        <diV class="div-row"> <label>Religion:</label><span>{{applicantProfile.religion}}</span></diV>
+        <diV class="div-row"> <label>Address:</label><span>{{applicantProfile.city}} {{applicantProfile.wereda}} {{applicantProfile.kebelle}}</span></diV>
+
+    </div>
+    </div>
+    <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="Start">
+      <!-- <div>Contact Details</div> -->
+      <div fxFlex="10%"></div>
+      <div fxFlex="70%">
+        <diV class="div-row"><label>Full Name</label>:<span>{{applicantProfile.contactPerson.fullName}}</span></diV>
+        <diV class="div-row"> <label>Phone Number</label>:<span>{{applicantProfile.contactPerson.phoneNumber}}</span></diV>
+        <diV class="div-row"> <label>Address</label>:<span>{{applicantProfile.contactPerson.city}} {{applicantProfile.contactPerson.wereda}} {{applicantProfile.contactPerson.kebelle}}</span></diV>
+
+  </div>
+
+      </div>
+      <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="Start">
+    <div fxFlex="10%"></div>
+
+ <div   fxFlex="70%">
+      <table mat-table [dataSource]="workExperienceDataSource" matSort>
+        <!-- ID Column -->
+        <ng-container matColumnDef="startDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Start Date</th>
+          <td mat-cell *matCellDef="let row">{{ row.startDate }}</td>
+        </ng-container>
+
+        <!-- Project Code Column -->
+        <ng-container matColumnDef="endDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            End Date
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.endDate }}</td>
+        </ng-container>
+
+        <!-- Project Type Column -->
+        <ng-container matColumnDef="duration">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Duration(year)</th>
+          <td mat-cell *matCellDef="let row">{{ row.duration }}</td>
+        </ng-container>
+        <!-- Project Type Column -->
+        <ng-container matColumnDef="country">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Country</th>
+          <td mat-cell *matCellDef="let row">{{ row.country }}</td>
+        </ng-container>
+        <ng-container matColumnDef="jobDescription">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Job Description
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.jobDescription }}</td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedWorkExperienceColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedWorkExperienceColumns"></tr>
+      </table>
+    </div>
+    </div>
+    <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="Start">
+      <div fxFlex="10%"></div>
+
+   <div   fxFlex="70%">
+        <table mat-table [dataSource]="experiencedJobDataSource" matSort>
+          <!-- ID Column -->
+          <ng-container matColumnDef="job">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Job</th>
+            <td mat-cell *matCellDef="let row">{{ row.commonJobId }}</td>
+          </ng-container>
+
+          <!-- Project Code Column -->
+          <ng-container matColumnDef="haveExperience">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              End Date
+            </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.haveExperience }}</td>
+          </ng-container>
+
+
+
+
+          <tr mat-header-row *matHeaderRowDef="displayedExperiencedJobsColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedExperiencedJobsColumns"></tr>
+        </table>
+      </div>
+      </div>
+  </div>
+</mat-card-content>
+</mat-card>

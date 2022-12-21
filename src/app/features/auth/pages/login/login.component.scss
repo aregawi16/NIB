@@ -1,0 +1,97 @@
+mat-card {
+  max-width: 40%;
+  width: 40%;
+  max-height: 550px;
+  height: 550px;
+  margin:auto;
+  margin-top: 100px;
+  background-color: #eee;
+
+}
+.login-div{
+  max-width: 90%;
+  width: 90%;
+  max-height: 400px;
+  height: 400px;
+  margin:auto;
+  margin-top: 10px;
+}
+.login-error-desc
+{
+  display: flex;
+  background-color:#ddd;
+  height: 50px;
+  border-radius:5px;
+  flex-wrap:wrap;
+  flex-direction: column;
+}
+// .container
+// {
+//   background-color: #eee;
+//   max-height: 40%;
+//    max-width: 40%;
+//    max-height: 80%;
+//    margin: 10% auto;
+// }
+
+.image-container
+{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+mat-form-field {
+  display: block;
+  margin: 10px;
+  height: 100px;
+  input {
+    font-size: 1.25rem;
+    border-radius: 5px;
+    height: 45px;
+  }
+
+  label.mat-form-field-label {
+    font-size: 1.25rem;
+    top: 2.45em;
+  }
+
+  &.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label,
+  &.mat-form-field-can-float
+    .mat-input-server:focus
+    + .mat-form-field-label-wrapper
+    .mat-form-field-label {
+    transform: translateY(-1.25em) scale(0.75);
+    width: 133.33333%;
+  }
+}
+
+label{
+  color:#838383;
+  font-family: Roboto,sans-serif;
+  font-size: .75rem;
+  font-weight: 700;
+  line-height:1rem;
+}
+p{
+  color:#424242;
+  font-family: Roboto,sans-serif;
+  font-size: .9375rem;
+  font-weight: 400;
+  line-height:1.25rem;
+}
+h1{
+  color: #424242;
+}
+
+
+
+  #login_btn
+  {
+ border-color:white;
+ background-color:blueviolet;
+ width: 30%;
+ height: 50px;
+ font-size: 20px;
+ color: white;
+
+  }

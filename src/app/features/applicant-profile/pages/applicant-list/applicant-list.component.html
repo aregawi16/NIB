@@ -1,0 +1,206 @@
+<div fxLayout="row" fxLayoutAlign="space-between center" class="p-1">
+  <div fxLayout="row">
+      <mat-button-toggle-group #controls="matButtonToggleGroup" appearance="legacy">
+          <mat-button-toggle value="add" [routerLink]="['/${route-link}']">
+              <mat-icon>person_add</mat-icon>
+          </mat-button-toggle>
+          <mat-button-toggle value="search">
+              <mat-icon>search</mat-icon>
+          </mat-button-toggle>
+      </mat-button-toggle-group>
+  </div>
+  <form class="user-search" [class.show]="controls.value == 'search'">
+      <mat-form-field class="user-search-input">
+          <input matInput placeholder="Search user by name..." [(ngModel)]="searchText" name="search">
+      </mat-form-field>
+  </form>
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+      <mat-button-toggle-group #viewType="matButtonToggleGroup" appearance="legacy" value="grid">
+          <mat-button-toggle value="grid">
+              <mat-icon>view_module</mat-icon>
+          </mat-button-toggle>
+          <mat-button-toggle value="list">
+              <mat-icon>view_list</mat-icon>
+          </mat-button-toggle>
+
+      </mat-button-toggle-group>
+  </div>
+</div>
+
+<div *ngIf="viewType.value == 'grid'" fxLayout="row wrap">
+  <div *ngFor="let applicantProfile of applicantProfiles | UserSearchPipe : searchText | paginate: { itemsPerPage: 8, currentPage: page }" fxFlex="100" fxFlex.gt-md="25" fxFlex.md="40" class="p-1">
+      <mat-card class="p-0">
+          <div class="bg-primary" fxLayout="row" fxLayoutAlign="space-between center">
+              <h3 *ngIf="!applicantProfile.isDeleted" class="user-name">{{applicantProfile.fullName}}</h3>
+              <h3 *ngIf="applicantProfile.isDeleted" class="user-name">User blocked</h3>
+              <button mat-icon-button [matMenuTriggerFor]="menu" #menuTrigger="matMenuTrigger">
+                  <mat-icon>more_vert</mat-icon>
+              </button>
+          </div>
+          <mat-menu #menu="matMenu" xPosition="before" overlapTrigger="true">
+              <span (mouseleave)="menuTrigger.closeMenu()">
+                  <button mat-menu-item (click)="openApplicantProfileDialog(applicantProfile)">
+                      <mat-icon>mode_edit</mat-icon>
+                      <span>Edit</span>
+                  </button>
+                  <button mat-menu-item (click)="deleteApplicantProfile(applicantProfile);">
+                      <mat-icon>delete</mat-icon>
+                      <span>Delete</span>
+                  </button>
+                  <a mat-menu-item [routerLink]="['/applicant-profile/detail', applicantProfile.applicantProfileId]">
+                    <mat-icon>details</mat-icon>
+                    <span>Detail</span>
+                </a>
+              </span>
+          </mat-menu>
+          <div class="user-content" fxLayout="row" fxLayoutAlign="space-around center">
+              <div fxFlex="30" fxLayout="column" fxLayoutAlign="center center">
+                  <div class="user-img">
+                      <img *ngIf="applicantProfile.image" [src]="applicantProfile.image" class="transition-2" [class.blocked]="applicantProfile.isDeleted">
+                      <img *ngIf="!applicantProfile.image" src="assets/images/others/applicantProfile.jpg" class="transition-2" [class.blocked]="applicantProfile.isDeleted">
+                      <mat-icon *ngIf="applicantProfile.isDeleted" color="warn">block</mat-icon>
+                  </div>
+                  <div class="user-social">
+                      <mat-slide-toggle color="primary" [checked]="applicantProfile.isDeleted" (change)="applicantProfile.isDeleted = !applicantProfile.isDeleted"></mat-slide-toggle>
+                  </div>
+              </div>
+              <div fxFlex="70" fxLayout="column" class="user-details transition-2" [class.blocked]="applicantProfile.isDeleted">
+                  <p fxLayout="row" fxLayoutAlign="start center">
+                      <mat-icon class="text-muted">where_to_vote</mat-icon>
+                      <span>{{applicantProfile.nationality}}</span>
+                  </p>
+                  <p fxLayout="row" fxLayoutAlign="start center">
+                      <mat-icon class="text-muted">mail_outline</mat-icon>
+                      <span>{{applicantProfile.passportNo}}</span>
+                  </p>
+                  <p fxLayout="row" fxLayoutAlign="start center">
+                      <mat-icon class="text-muted">call</mat-icon>
+                      <span>{{applicantProfile.phoneNumber}}</span>
+                  </p>
+                  <p fxLayout="row" fxLayoutAlign="start center">
+                      <mat-icon class="text-muted">people</mat-icon>
+                      <span>    {{genderList[applicantProfile.gender]}}   </span>
+                  </p>
+                  <p fxLayout="row" fxLayoutAlign="start center">
+                      <mat-icon class="text-muted">wc</mat-icon>
+                      <span>    {{maritalStatusList[applicantProfile.maritalStatus]}}   </span>
+                  </p>
+              </div>
+          </div>
+      </mat-card>
+  </div>
+</div>
+<div *ngIf="viewType.value == 'list'" fxLayout="row wrap">
+  <div *ngFor="let applicantProfile of applicantProfiles | UserSearchPipe : searchText | paginate: { itemsPerPage: 3, currentPage: page }" fxFlex="100" class="p-1">
+      <mat-card class="p-0">
+          <div class="bg-primary" fxLayout="row" fxLayoutAlign="space-between center">
+              <h3 *ngIf="!applicantProfile.isDeleted" class="user-name">{{applicantProfile.fullName}}</h3>
+              <h3 *ngIf="applicantProfile.isDeleted" class="user-name">User blocked</h3>
+              <button mat-icon-button [matMenuTriggerFor]="menu" #menuTrigger="matMenuTrigger">
+                  <mat-icon>more_vert</mat-icon>
+              </button>
+          </div>
+          <mat-menu #menu="matMenu" xPosition="before"  overlapTrigger="true">
+              <span (mouseleave)="menuTrigger.closeMenu()">
+                  <button mat-menu-item (click)="openApplicantProfileDialog(applicantProfile);">
+                      <mat-icon>mode_edit</mat-icon>
+                      <span>Edit</span>
+                  </button>
+                  <button mat-menu-item (click)="deleteApplicantProfile(applicantProfile);">
+                      <mat-icon>delete</mat-icon>
+                      <span>Delete</span>
+                  </button>
+                  <a mat-menu-item [routerLink]="['/applicant-profile/detail', applicantProfile.applicantProfileId]">
+                    <mat-icon>details</mat-icon>
+                    <span>Detail</span>
+                </a>
+              </span>
+          </mat-menu>
+          <div class="user-content" fxLayout="row" fxLayoutAlign="space-around center">
+              <div fxFlex="20" fxFlex.xs="30" fxLayout="column" fxLayoutAlign="center center">
+                  <div class="user-img">
+                      <img *ngIf="applicantProfile.image" [src]="applicantProfile.image" class="transition-2" [class.blocked]="applicantProfile.isDeleted">
+                      <img *ngIf="!applicantProfile.image" src="assets/img/applicantProfiles/default-applicantProfile.jpg" class="transition-2" [class.blocked]="applicantProfile.isDeleted">
+                      <mat-icon *ngIf="applicantProfile.isDeleted" color="warn">block</mat-icon>
+                  </div>
+                  <div class="user-social">
+                      <mat-slide-toggle color="primary" [checked]="applicantProfile.isDeleted" (change)="applicantProfile.isDeleted = !applicantProfile.isDeleted"></mat-slide-toggle>
+                  </div>
+              </div>
+              <div fxFlex="80" fxFlex.xs="70" fxLayout="row" fxLayout.xs="column" class="user-details transition-2" [class.blocked]="applicantProfile.isDeleted">
+                  <div fxFlex="30" fxFlex.xs="100" fxLayout="column">
+                      <p fxLayout="row" fxLayoutAlign="start center">
+                          <mat-icon class="text-muted">business</mat-icon>
+                          <span>{{applicantProfile.nationality}}</span>
+                        </p>
+                      <p fxLayout="row" fxLayoutAlign="start center">
+                          <mat-icon class="text-muted">card_membership</mat-icon>
+                          <span>{{applicantProfile.passportNo}}</span>
+                        </p>
+                      <p fxLayout="row" fxLayoutAlign="start center">
+                        <mat-icon class="text-muted">call</mat-icon>
+                        <span>{{applicantProfile.phoneNumber}}</span>
+                      </p>
+                      <p fxLayout="row" fxLayoutAlign="start center">
+                        <mat-icon class="text-muted">location_on</mat-icon>
+                        <span>{{applicantProfile.address}}</span>
+                      </p>
+                  </div>
+                  <div fxFlex="30" fxFlex.xs="100" fxLayout="column">
+                      <p fxLayout="row" fxLayoutAlign="start center">
+                        <mat-icon class="text-muted">people</mat-icon>
+                        <span>    {{genderList[applicantProfile.gender]}}   </span>
+                      </p>
+                      <p fxLayout="row" fxLayoutAlign="start center">
+                          <mat-icon class="text-muted">wc</mat-icon>
+                          <span>    {{religionList[applicantProfile.religion]}}   </span>
+                                              </p>
+
+
+
+
+                                              <p fxLayout="row" fxLayoutAlign="start center">
+                                                <mat-icon class="text-muted">wc</mat-icon>
+                                                <span>    {{maritalStatusList[applicantProfile.maritalStatus]}}   </span>
+                                                                    </p>
+                      <p fxLayout="row" fxLayoutAlign="start center">
+                          <mat-icon class="text-muted">location_on</mat-icon>
+                          <span>{{applicantProfile.age}}</span>
+                      </p>
+                  </div>
+                  <div fxFlex="40" fxFlex.xs="100" fxLayout="column">
+                      <p fxLayout="row" fxLayoutAlign="start center">
+                          <mat-icon class="text-muted">event_available</mat-icon>
+                          <span>Expired {{applicantProfile.availabilityYear}}</span>
+                        </p>
+                      <p fxLayout="row" fxLayoutAlign="start center">
+                          <mat-icon class="text-muted">event_available</mat-icon>
+                          <span>{{applicantProfile.height}}</span>
+                      </p>
+                      <p fxLayout="row" fxLayoutAlign="start center">
+                          <mat-icon class="text-muted">date_range</mat-icon>
+                          <span> {{applicantProfile.weight}}</span>
+                      </p>
+                      <p fxLayout="row" fxLayoutAlign="start center">
+                          <mat-icon *ngIf="applicantProfile.isDeleted" class="text-muted">person_outline</mat-icon>
+                          <mat-icon *ngIf="!applicantProfile.isDeleted" class="text-muted">person</mat-icon>
+                          <span>{{ (applicantProfile.isDeleted) ? 'Blocked' : 'Active' }}</span>
+                      </p>
+                  </div>
+              </div>
+          </div>
+      </mat-card>
+  </div>
+</div>
+<div *ngIf="applicantProfiles" fxLayout="row wrap">
+  <div fxFlex="100" class="p-1">
+      <mat-card class="p-0 text-center">
+          <pagination-controls class="product-pagination" [autoHide]='true' [maxSize]='5' (pageChange)="onPageChanged($event)"></pagination-controls>
+      </mat-card>
+  </div>
+</div>
+
+<div *ngIf="!applicantProfiles" fxLayout="column" fxLayoutAlign="center center" class="user-spinner">
+  <mat-spinner color="primary"></mat-spinner>
+</div>
+
